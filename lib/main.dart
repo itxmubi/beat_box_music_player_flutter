@@ -14,9 +14,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
+
 import 'configs/core_theme.dart' as theme;
 import 'cubits/auth/cubit.dart';
-import 'firebase_options.dart';
 import 'models/playlist/playlist.dart';
 import 'models/song/song.dart';
 
@@ -24,8 +24,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
 
   // hive
   await Hive.initFlutter();

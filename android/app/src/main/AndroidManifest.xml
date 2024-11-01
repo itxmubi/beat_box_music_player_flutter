@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.usamamuzaffar.beat_box_music_player_flutter">
+    package="com.mubi.beat_box_music_player_flutter">
    <application
         android:label="beat_box_music_player_flutter"
         android:name="${applicationName}"

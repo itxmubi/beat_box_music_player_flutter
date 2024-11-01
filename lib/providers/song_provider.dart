@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:beat_box_music_player_flutter/models/playlist/playlist.dart';
 import 'package:beat_box_music_player_flutter/models/song/song.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,22 +39,23 @@ class SongProvider extends ChangeNotifier {
     var status = await Permission.storage.status;
     var extStorage = await Permission.manageExternalStorage.status;
     if (status.isDenied || extStorage.isDenied) {
+      // await Permission.storage.request();
       await [
         Permission.storage,
         Permission.manageExternalStorage,
       ].request();
-    }
-    Directory directory = Directory('/storage/emulated/0/');
+      Directory directory = Directory('/storage/emulated/0/Songstest/');
 
-    _files = directory.listSync(recursive: true, followLinks: false);
-    for (FileSystemEntity entity in _files!) {
-      String path = entity.path;
-      if (path.endsWith('.mp3')) {
-        _songs!.add(
-          Song(songPath: entity.path),
-        );
+      _files = directory.listSync(recursive: true, followLinks: false);
+      for (FileSystemEntity entity in _files!) {
+        String path = entity.path;
+        if (path.endsWith('.mp3')) {
+          _songs!.add(
+            Song(songPath: entity.path),
+          );
+        }
       }
-    }
+    } else {}
 
     songsCache.put('songs', _songs!);
   }
@@ -62,6 +64,7 @@ class SongProvider extends ChangeNotifier {
   bool stopped = false;
 
   AudioPlayer get getPlayer => audioPlayer;
+  String get currentRT => audioPlayer.position.toString();
   PlayerState get state => audioPlayer.playerState;
   bool get isPlaying => audioPlayer.playerState.playing;
   bool get isStopped => stopped;
@@ -79,6 +82,11 @@ class SongProvider extends ChangeNotifier {
     audioPlayer.setFilePath(path ?? newPath);
     audioPlayer.play();
     notifyListeners();
+  }
+
+  nextSong() {
+    
+    playSong();
   }
 
   pauseSong() {
@@ -141,5 +149,19 @@ class SongProvider extends ChangeNotifier {
 
     likedSongs = localLikedSongs;
     notifyListeners();
+  }
+
+  String currentTime = "0:00";
+  getCurrentTime() {
+    audioPlayer.positionStream.listen((position) {
+      currentTime =
+          "${position.inMinutes}:${(position.inSeconds % 60).toString().padLeft(2, '0')}";
+
+      notifyListeners();
+    });
+  }
+
+  getTotalTime() {
+    return "${audioPlayer.duration!.inMinutes}:${(audioPlayer.duration!.inSeconds % 60)}";
   }
 }

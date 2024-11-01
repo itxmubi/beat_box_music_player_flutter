@@ -13,7 +13,7 @@ import '../../utils/utils.dart';
 import '../../widgets/custom_snackbar.dart';
 
 class PlayingNowScreen extends StatefulWidget {
-  const PlayingNowScreen({Key? key}) : super(key: key);
+  const PlayingNowScreen({super.key});
 
   @override
   State<PlayingNowScreen> createState() => _PlayingNowScreenState();
@@ -83,7 +83,9 @@ class _PlayingNowScreenState extends State<PlayingNowScreen> {
                   IconButton(
                     iconSize: AppDimensions.normalize(20),
                     splashRadius: AppDimensions.normalize(10),
-                    onPressed: () {},
+                    onPressed: () {
+                      songProvider.audioPlayer.seekToPrevious();
+                    },
                     color: AppTheme.c!.primary,
                     icon: const Icon(
                       Icons.skip_previous,
@@ -98,6 +100,7 @@ class _PlayingNowScreenState extends State<PlayingNowScreen> {
                         songProvider.pauseSong();
                       } else {
                         songProvider.playSong();
+                        songProvider.getCurrentTime();
                       }
                     },
                     icon: Icon(
@@ -116,13 +119,24 @@ class _PlayingNowScreenState extends State<PlayingNowScreen> {
                 ],
               ),
               Space.y1!,
-              Slider(
-                value: playing,
-                onChanged: (value) {
-                  setState(() {
-                    playing = value;
-                  });
-                },
+              Row(
+                children: [
+                  Text(songProvider.currentTime),
+                  Slider(
+                    value: playing,
+                    min: 0.0,
+                    max:
+                        songProvider.audioPlayer.duration!.inSeconds.toDouble(),
+                    onChanged: (value) {
+                      setState(() {
+                        //   songProvider.audioPlayer
+                        //       .seek(Duration(seconds: value.toInt()));
+                        playing = value;
+                      });
+                    },
+                  ),
+                  Text(songProvider.getTotalTime().toString()),
+                ],
               ),
               Space.y1!,
               Row(

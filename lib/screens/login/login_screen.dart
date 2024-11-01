@@ -111,9 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     listener: (context, state) {
                       if (state is AuthLoginFailed) {
                         CustomSnackBars.failure(context, state.message!);
-                      } else if (state is AuthLoginSuccess) {
-                        Navigator.popAndPushNamed(context, '/dashboard');
-                      }
+                      } else if (state is AuthLoginSuccess) {}
+                      Navigator.popAndPushNamed(context, '/dashboard');
                     },
                     builder: (context, state) {
                       if (state is AuthLoginLoading) {

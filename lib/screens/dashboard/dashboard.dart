@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
 import '../../configs/app.dart';
 import '../../configs/app_dimensions.dart';
 import '../../configs/app_theme.dart';
@@ -27,7 +29,7 @@ part 'widgets/custom_drawer.dart';
 part 'widgets/main_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const   DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -93,7 +95,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     return (await (showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             title: const Text(
               "Exit Application",
               style: TextStyle(fontWeight: FontWeight.bold),
